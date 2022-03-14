@@ -33,8 +33,10 @@ let DexagamesWordaryService = class DexagamesWordaryService {
     async generateWords(wordMinLength = 6, maxLength = 8) {
         var response = new response_dto_1.ResponseDTO();
         try {
-            const alphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-            let rand = [];
+            if (!wordMinLength)
+                wordMinLength = 6;
+            if (!maxLength && wordMinLength)
+                maxLength = wordMinLength;
             const words = await this.fetchSingleWordFromApi();
             if (words.code > util_enum_1.statusEnum.failed) {
                 response.data = words.data.filter(x => x.length >= wordMinLength && x.length <= maxLength)[0];

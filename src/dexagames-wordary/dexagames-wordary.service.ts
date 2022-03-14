@@ -27,17 +27,13 @@ export class DexagamesWordaryService {
         );
     }
 
-    async generateWords(wordMinLength: number = 6, maxLength: number = 8): Promise<ResponseDTO<string>> {
+    async generateWords(wordMinLength= 6, maxLength= 8): Promise<ResponseDTO<string>> {
         var response = new ResponseDTO<string>();
         
         try {
-            const alphabets = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-            let rand = [];
-            // for(let i = 0; i < maxLength; i++) {
-            //     rand.push(alphabets[Math. floor(Math. random() * alphabets.length)]);
-            // }
+            if (!wordMinLength) wordMinLength = 6;
+            if (!maxLength && wordMinLength) maxLength = wordMinLength;
             
-            // response.data = rand.toString().replace(/,/g, "");
             const words = await this.fetchSingleWordFromApi();
             
             if (words.code > statusEnum.failed) {

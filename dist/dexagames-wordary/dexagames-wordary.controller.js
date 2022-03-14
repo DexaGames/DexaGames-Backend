@@ -24,10 +24,15 @@ let DexagamesWordaryController = class DexagamesWordaryController {
     }
     async getRandomWords(query) {
         let response = new response_dto_1.ResponseDTO();
-        if (query.maxLength)
-            response = await this.service.generateWords(query === null || query === void 0 ? void 0 : query.maxLength);
-        if (!query.maxLength)
+        if (query.maxLength) {
+            response = await this.service.generateWords(null, query.maxLength);
+        }
+        else if (query.minLength) {
+            response = await this.service.generateWords(query === null || query === void 0 ? void 0 : query.minLength, null);
+        }
+        else if (!query.maxLength) {
             response = await this.service.generateWords();
+        }
         return response.getResponse();
     }
     async verifyWord(words, word) {
@@ -39,9 +44,9 @@ let DexagamesWordaryController = class DexagamesWordaryController {
 __decorate([
     (0, swagger_1.ApiOperation)({
         description: `
-            Generate random number and return.
-            optional param maxLength can be used to specificy the max character length of the generated string.
-            /random-words?maxLength=10
+            Generate random set of characters and return.
+            *Optional param maxLength can be used to specificy the max character length of the generated string.
+            {BASE URL}/random-words?maxLength=10 OR {BASE URL}/random-words?minLength=10
         `,
     }),
     (0, swagger_1.ApiProduces)('json'),
@@ -56,9 +61,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({
         description: `
-            Generate random number and return.
-            optional param maxLength can be used to specificy the max character length of the generated string.
-            /random-words?maxLength=10
+            verify passed word is valid. Check is word is correct and word is also a subset of the parent alphabets.
         `,
     }),
     (0, swagger_1.ApiProduces)('json'),

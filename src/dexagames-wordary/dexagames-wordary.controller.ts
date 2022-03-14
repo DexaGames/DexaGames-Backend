@@ -15,9 +15,9 @@ export class DexagamesWordaryController {
     
     @ApiOperation({
         description: `
-            Generate random number and return.
-            optional param maxLength can be used to specificy the max character length of the generated string.
-            /random-words?maxLength=10
+            Generate random set of characters and return.
+            *Optional param maxLength can be used to specificy the max character length of the generated string.
+            {BASE URL}/random-words?maxLength=10 OR {BASE URL}/random-words?minLength=10
         `,
       })
       @ApiProduces('json')
@@ -28,16 +28,21 @@ export class DexagamesWordaryController {
         @Query() query
       ) {
         let response = new ResponseDTO<String>();
-        if (query.maxLength) response = await this.service.generateWords(query?.maxLength);
-        if (!query.maxLength) response = await this.service.generateWords();
+        if (query.maxLength) {
+            response = await this.service.generateWords(null, query.maxLength);
+        }
+        else if (query.minLength) {
+            response = await this.service.generateWords(query?.minLength,null);
+        }
+        else if (!query.maxLength) {
+            response = await this.service.generateWords();
+        }
         
         return response.getResponse();
       }
       @ApiOperation({
         description: `
-            Generate random number and return.
-            optional param maxLength can be used to specificy the max character length of the generated string.
-            /random-words?maxLength=10
+            verify passed word is valid. Check is word is correct and word is also a subset of the parent alphabets.
         `,
       })
       @ApiProduces('json')
