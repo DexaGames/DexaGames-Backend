@@ -13,7 +13,7 @@ import { DexagamesNumlockModule } from './dexagames-numlock/dexagames-numlock.mo
   imports: [
     MongooseModule.forRoot(
       // 'mongodb://localhost:27017/delivery_service_db', 
-      'mongodb://162.0.230.238:27017/delivery_service_db',
+      'mongodb://162.0.230.238:27017/dexagames_db',
       {
     autoCreate: true
   }),

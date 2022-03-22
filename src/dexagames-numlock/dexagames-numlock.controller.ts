@@ -26,7 +26,7 @@ export class DexagamesNumlockController {
       }
       @ApiOperation({
         description: `
-            Generate a random number.
+            validate number.
         `,
       })
       @ApiProduces('json')
