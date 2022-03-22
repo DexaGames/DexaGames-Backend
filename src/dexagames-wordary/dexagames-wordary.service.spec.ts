@@ -1,5 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
+import { HTTPRequest } from '../../src/http-request/http-request';
 import { statusEnum } from '../../src/enums/util.enum';
 import { DexagamesWordaryService } from './dexagames-wordary.service';
 
@@ -8,7 +9,13 @@ describe('DexagamesWordaryService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DexagamesWordaryService],
+      providers: [
+        DexagamesWordaryService,
+        {
+          provide: 'HTTPRequest',
+          useClass: HTTPRequest,
+        },
+      ],
       imports: [HttpModule]
     }).compile();
 

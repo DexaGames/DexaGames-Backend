@@ -5,6 +5,9 @@ import { AppService } from './app.service';
 import { DexagamesWordaryController } from './dexagames-wordary/dexagames-wordary.controller';
 import { DexagamesWordaryService } from './dexagames-wordary/dexagames-wordary.service';
 import { DexagamesWordaryModule } from './dexagames-wordary/dexagames-wordary.module';
+import { DexagamesNumlockController } from './dexagames-numlock/dexagames-numlock.controller';
+import { DexagamesNumlockService } from './dexagames-numlock/dexagames-numlock.service';
+import { DexagamesNumlockModule } from './dexagames-numlock/dexagames-numlock.module';
 
 @Module({
   imports: [
@@ -14,7 +17,8 @@ import { DexagamesWordaryModule } from './dexagames-wordary/dexagames-wordary.mo
       {
     autoCreate: true
   }),
-    DexagamesWordaryModule
+    DexagamesWordaryModule,
+    DexagamesNumlockModule
   ],
   controllers: [AppController],
   providers: [AppService],

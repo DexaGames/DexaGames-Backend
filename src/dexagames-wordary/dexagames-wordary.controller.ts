@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiConsumes, ApiOperation, ApiProduces, ApiResponse } from '@nestjs/swagger';
-import { OkResponse } from 'src/dto/okResponse.dto';
-import { ResponseDTO } from 'src/dto/response.dto';
+import { OkResponse } from '../dto/okResponse.dto';
+import { ResponseDTO } from '../dto/response.dto';
 import { DexagamesWordaryService } from './dexagames-wordary.service';
 
 @Controller('dexagames-wordary')

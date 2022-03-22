@@ -1,31 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import { catchError, lastValueFrom, map, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { ResponseDTO } from './../dto/response.dto';
 import { statusEnum } from './../enums/util.enum';
+import { AppHTTPRequestInterface } from '../http-request/app-request';
 
 @Injectable()
 export class DexagamesWordaryService {
     constructor(
-        private readonly httpService: HttpService,
+        @Inject('HTTPRequest') private readonly httpRequest: AppHTTPRequestInterface,
     ){}
-
-    private getRequest({url}): Observable<AxiosResponse<any>> {
-        const headers = {
-            "app_id": "b08b401e",
-            "app_key": "bf89012009f0f25cb71c12ec60be09b6",
-        };
-        
-        return this.httpService.get(url, {headers: headers}).pipe(
-          map((response) => {
-            return response;
-          }),
-          catchError((ex) => {
-            return [{ ...ex.response }];
-          }),
-        );
-    }
 
     async generateWords(wordMinLength= 6, maxLength= 8): Promise<ResponseDTO<string>> {
         var response = new ResponseDTO<string>();
@@ -53,8 +38,8 @@ export class DexagamesWordaryService {
         var response = new ResponseDTO<boolean>();
         response.data = false;
         try {
-            const result = await lastValueFrom(this.getRequest({url: "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/" + word}));
-            if (result.status == 200) {
+            const result = await (this.httpRequest.getRequest({url: "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/" + word}));
+            if (result['status'] == 200) {
                 response.data = true;
                 response.code = statusEnum.successful;
             }
@@ -89,8 +74,8 @@ export class DexagamesWordaryService {
     async fetchSingleWordFromApi():  Promise<ResponseDTO<string[]>>{
         var response = new ResponseDTO<string[]>();
         try {
-            const result = await lastValueFrom(this.getRequest({url: "https://random-word-api.herokuapp.com/word?number=10"}));
-            if (result.status == 200) {
+            const result = await this.httpRequest.getRequest({url: "https://random-word-api.herokuapp.com/word?number=10"});
+            if (result['status'] == 200) {
                 response.data = result.data;
                 response.code = statusEnum.successful;
             }
