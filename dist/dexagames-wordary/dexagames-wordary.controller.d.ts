@@ -1,4 +1,4 @@
-import { ResponseDTO } from 'src/dto/response.dto';
+import { ResponseDTO } from '../dto/response.dto';
 import { DexagamesWordaryService } from './dexagames-wordary.service';
 export declare class DexagamesWordaryController {
     private readonly service;

@@ -12,15 +12,17 @@ const mongoose_1 = require("@nestjs/mongoose");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const dexagames_wordary_module_1 = require("./dexagames-wordary/dexagames-wordary.module");
+const dexagames_numlock_module_1 = require("./dexagames-numlock/dexagames-numlock.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb://162.0.230.238:27017/delivery_service_db', {
+            mongoose_1.MongooseModule.forRoot('mongodb://162.0.230.238:27017/dexagames_db', {
                 autoCreate: true
             }),
-            dexagames_wordary_module_1.DexagamesWordaryModule
+            dexagames_wordary_module_1.DexagamesWordaryModule,
+            dexagames_numlock_module_1.DexagamesNumlockModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

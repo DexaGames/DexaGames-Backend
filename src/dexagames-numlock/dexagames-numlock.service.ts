@@ -27,7 +27,7 @@ export class DexagamesNumlockService {
         
         try {
             response.code = statusEnum.ok;
-            response.data = userNumber == originalNumber;
+            response.data = userNumber === originalNumber;
         }
         catch(e){
             response.extra_data = e.toString();

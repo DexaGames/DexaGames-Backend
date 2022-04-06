@@ -8,27 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DexagamesWordaryService = void 0;
 const common_1 = require("@nestjs/common");
-const axios_1 = require("@nestjs/axios");
-const rxjs_1 = require("rxjs");
 const response_dto_1 = require("./../dto/response.dto");
 const util_enum_1 = require("./../enums/util.enum");
 let DexagamesWordaryService = class DexagamesWordaryService {
-    constructor(httpService) {
-        this.httpService = httpService;
-    }
-    getRequest({ url }) {
-        const headers = {
-            "app_id": "b08b401e",
-            "app_key": "bf89012009f0f25cb71c12ec60be09b6",
-        };
-        return this.httpService.get(url, { headers: headers }).pipe((0, rxjs_1.map)((response) => {
-            return response;
-        }), (0, rxjs_1.catchError)((ex) => {
-            return [Object.assign({}, ex.response)];
-        }));
+    constructor(httpRequest) {
+        this.httpRequest = httpRequest;
     }
     async generateWords(wordMinLength = 6, maxLength = 8) {
         var response = new response_dto_1.ResponseDTO();
@@ -53,8 +43,8 @@ let DexagamesWordaryService = class DexagamesWordaryService {
         var response = new response_dto_1.ResponseDTO();
         response.data = false;
         try {
-            const result = await (0, rxjs_1.lastValueFrom)(this.getRequest({ url: "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/" + word }));
-            if (result.status == 200) {
+            const result = await (this.httpRequest.getRequest({ url: "https://od-api.oxforddictionaries.com/api/v2/entries/en-us/" + word }));
+            if (result['status'] == 200) {
                 response.data = true;
                 response.code = util_enum_1.statusEnum.successful;
             }
@@ -83,8 +73,8 @@ let DexagamesWordaryService = class DexagamesWordaryService {
     async fetchSingleWordFromApi() {
         var response = new response_dto_1.ResponseDTO();
         try {
-            const result = await (0, rxjs_1.lastValueFrom)(this.getRequest({ url: "https://random-word-api.herokuapp.com/word?number=10" }));
-            if (result.status == 200) {
+            const result = await this.httpRequest.getRequest({ url: "https://random-word-api.herokuapp.com/word?number=10" });
+            if (result['status'] == 200) {
                 response.data = result.data;
                 response.code = util_enum_1.statusEnum.successful;
             }
@@ -125,7 +115,8 @@ let DexagamesWordaryService = class DexagamesWordaryService {
 };
 DexagamesWordaryService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [axios_1.HttpService])
+    __param(0, (0, common_1.Inject)('HTTPRequest')),
+    __metadata("design:paramtypes", [Object])
 ], DexagamesWordaryService);
 exports.DexagamesWordaryService = DexagamesWordaryService;
 //# sourceMappingURL=dexagames-wordary.service.js.map
