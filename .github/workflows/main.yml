@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        # with:
-          # heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          # heroku_app_name: "dexagames-backend"
-          # heroku_email: "odenigboebuka@yahoo.com"
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "dexagames-backend"
+          heroku_email: "odenigboebuka@yahoo.com"
       - run: docker login --username=_ --password=${{secrets.HEROKU_API_KEY}} registry.heroku.com && heroku container:push web -a dexagames-backend && heroku container:release web -a dexagames-backend
